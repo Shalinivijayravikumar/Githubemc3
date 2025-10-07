@@ -1,9 +1,125 @@
-<html></html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <title>My Web Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reminder Calendar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        #calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        .day {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 80px;
+            position: relative;
+        }
+        .day span {
+            font-weight: bold;
+        }
+        .reminder {
+            background: #ffecb3;
+            margin-top: 5px;
+            padding: 2px 5px;
+            font-size: 12px;
+            border-radius: 3px;
+        }
+        #addReminder {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        input, select, button {
+            padding: 8px;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <h1>Welcome to My Web Page</h1>
-  <p>This is a simple web page.</p>
+
+<h1>Parent-Student Reminder Calendar</h1>
+
+<div id="calendar"></div>
+
+<div id="addReminder">
+    <h3>Add Reminder</h3>
+    <label for="daySelect">Day (1-31):</label>
+    <input type="number" id="daySelect" min="1" max="31">
+    
+    <label for="reminderType">Type:</label>
+    <select id="reminderType">
+        <option value="Class">Class</option>
+        <option value="Doctor Appointment">Doctor Appointment</option>
+        <option value="Homework">Homework</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <label for="reminderText">Reminder:</label>
+    <input type="text" id="reminderText">
+
+    <button onclick="addReminder()">Add Reminder</button>
+</div>
+
+<script>
+    const calendar = document.getElementById('calendar');
+    const totalDays = 31; // Example: a month with 31 days
+
+    // Create calendar days
+    for (let i = 1; i <= totalDays; i++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.classList.add('day');
+        dayDiv.id = 'day-' + i;
+        dayDiv.innerHTML = `<span>${i}</span>`;
+        calendar.appendChild(dayDiv);
+    }
+
+    // Add reminder function
+    function addReminder() {
+        const day = document.getElementById('daySelect').value;
+        const type = document.getElementById('reminderType').value;
+        const text = document.getElementById('reminderText').value;
+
+        if (!day || !text) {
+            alert('Please enter both day and reminder text.');
+            return;
+        }
+
+        const dayDiv = document.getElementById('day-' + day);
+        const reminderDiv = document.createElement('div');
+        reminderDiv.classList.add('reminder');
+        reminderDiv.textContent = `[${type}] ${text}`;
+
+        dayDiv.appendChild(reminderDiv);
+
+        // Clear input fields
+        document.getElementById('daySelect').value = '';
+        document.getElementById('reminderText').value = '';
+    }
+</script>
+
 </body>
 </html>
